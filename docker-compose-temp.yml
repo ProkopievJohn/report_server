@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    command:
+      - /bin/bash
+      - -c
+      - |
+        yarn build
+        yarn start
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3010:3010"
+    env_file:
+      - .env
+    restart: always
+  mongo:
+    image: "mongo:4"
+    ports:
+      - 27017:27017
+    logging:
+      driver: none
+    volumes:
+      - ./data/:/data/db
+    restart: always
